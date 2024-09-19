@@ -1,6 +1,6 @@
 use crate::adsb_parser::AdsbMessage;
 use colored::*;
-use indicatif::{ProgressBar, ProgressStyle}; // For progress bar
+use indicatif::{ProgressBar}; // For progress bar
 use rumqttc::{Client, MqttOptions, QoS};
 use serde::Serialize;
 use std::env;
@@ -29,7 +29,7 @@ pub fn init_mqtt_client() -> Client {
 
     let mqtt_username = env::var("MQTT_USERNAME").expect("MQTT_USERNAME not set");
     let mqtt_password = env::var("MQTT_PASSWORD").expect("MQTT_PASSWORD not set");
-    let _verbose = false;
+    let _verbose = true;
 
     let mut mqttoptions = MqttOptions::new("adsb_publisher", mqtt_host, mqtt_port);
     mqttoptions.set_keep_alive(Duration::from_secs(5));
@@ -61,7 +61,7 @@ pub fn init_mqtt_client() -> Client {
 // Function to publish the ADS-B message to an MQTT broker
 pub fn publish_to_mqtt(client: &mut Client, message: &AdsbMessage, progress: &ProgressBar) {
     let topic = format!("adsb/{}/{}", message.hex_ident, message.transmission_type);
-    let _verbose = false;
+    let _verbose = true;
 
     let mqtt_message = MqttMessage {
         hex_ident: &message.hex_ident,

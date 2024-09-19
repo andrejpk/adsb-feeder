@@ -1,5 +1,6 @@
-// adsb_parser.rs
-#[derive(Debug)]
+use serde::Serialize;
+
+#[derive(Debug, Serialize)] // Add Serialize to derive
 pub struct AdsbMessage {
     pub message_type: String,
     pub transmission_type: u8,
